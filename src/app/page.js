@@ -861,18 +861,22 @@ function NSojasPresentation() {
         <div style={{
           position: "relative", width: "100%", aspectRatio: "16/9",
           background: "#000", borderRadius: 4, overflow: "hidden",
-          border: "1px solid rgba(212,175,55,0.2)",
-          boxShadow: "0 0 80px rgba(0,0,0,0.8), 0 0 1px rgba(212,175,55,0.3)",
+          border: `1px solid ${flash ? GOLD : "rgba(212,175,55,0.2)"}`,
+          boxShadow: flash
+            ? "0 0 80px rgba(0,0,0,0.8), 0 0 60px rgba(212,175,55,0.9), 0 0 1px rgba(212,175,55,0.8)"
+            : "0 0 80px rgba(0,0,0,0.8), 0 0 1px rgba(212,175,55,0.3)",
+          isolation: "isolate",
+          transition: "box-shadow 0.1s ease, border-color 0.1s ease",
         }}>
 
-          {/* ── CONTAINED FLASH OVERLAY — shutter effect inside frame only ── */}
+          {/* ── CONTAINED FLASH OVERLAY — shutter inside frame, isolation:isolate contains it ── */}
           <div style={{
             position: "absolute", inset: 0, zIndex: 50,
             background: GOLD,
             opacity: flash ? 1 : 0,
             pointerEvents: "none",
-            transition: flash ? "opacity 0.05s ease" : "opacity 0.28s ease",
-            borderRadius: 4,
+            transition: flash ? "opacity 0.04s linear" : "opacity 0.26s ease",
+            willChange: "opacity",
           }} />
 
           {/* ── CINEMATIC OPENING CARD ── */}
