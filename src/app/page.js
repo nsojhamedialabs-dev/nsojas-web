@@ -47,7 +47,7 @@ function GoldLine() {
 // ── NAVBAR ─────────────────────────────────────────────────────
 function Navbar({ scrolled }) {
   const [open, setOpen] = useState(false);
-  const links = ["Services", "Aerial", "Vault", "Merch", "Portfolio", "Contact"];
+  const links = ["Services", "Aerial", "Portfolio", "Presentation", "Vault", "Contact"];
   return (
     <motion.nav
       initial={{ y: -80, opacity: 0 }}
@@ -752,6 +752,271 @@ function OurWorkSection() {
 }
 
 
+
+// ── NS OJAS VIDEO PRESENTATION ─────────────────────────────────
+const REEL_VIDEOS = [
+  { src: "/logo.mp4",                label: "NS OJAS Media Labs",        tag: "Brand Identity"      },
+  { src: "/ai-restoration-sota.mp4", label: "AI Legacy Restoration",     tag: "The Showstopper"     },
+  { src: "/premium-apparel-sota.mp4",label: "Premium Fest Apparel",      tag: "Merch Studio"        },
+  { src: "/institutional-media.mp4", label: "Institutional Media",       tag: "Pillar I"            },
+];
+
+function NSojasPresentation() {
+  // stage: "card" | "flash" | "playing"
+  const [stage,       setStage]       = useState("card");
+  const [vidIdx,      setVidIdx]      = useState(0);
+  const [flash,       setFlash]       = useState(false);
+  const [cardPhase,   setCardPhase]   = useState("fadein"); // fadein | hold | fadeout
+  const [progress,    setProgress]    = useState(0);
+  const [captionVis,  setCaptionVis]  = useState(false);
+  const videoRef  = useRef(null);
+  const rafRef    = useRef(null);
+  const sectionRef = useRef(null);
+  const inView    = useInView(sectionRef, { once: true, margin: "-100px" });
+
+  // ── Cinematic opening card sequence ──
+  useEffect(() => {
+    if (!inView) return;
+    // fade in 800ms → hold 2500ms → fade out 800ms → gold flash → first video
+    const t1 = setTimeout(() => setCardPhase("hold"),    800);
+    const t2 = setTimeout(() => setCardPhase("fadeout"), 3300);
+    const t3 = setTimeout(() => {
+      setFlash(true);
+      setTimeout(() => { setFlash(false); setStage("playing"); }, 320);
+    }, 4100);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [inView]);
+
+  // ── Progress bar ticker ──
+  useEffect(() => {
+    if (stage !== "playing") return;
+    const tick = () => {
+      const v = videoRef.current;
+      if (v && v.duration) setProgress(v.currentTime / v.duration);
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [stage, vidIdx]);
+
+  // ── Show caption 600ms after video starts ──
+  useEffect(() => {
+    if (stage !== "playing") return;
+    setCaptionVis(false);
+    const t = setTimeout(() => setCaptionVis(true), 600);
+    return () => clearTimeout(t);
+  }, [stage, vidIdx]);
+
+  // ── On video end → gold flash → next video ──
+  const handleVideoEnd = () => {
+    setCaptionVis(false);
+    setFlash(true);
+    setTimeout(() => {
+      setFlash(false);
+      setVidIdx(i => (i + 1) % REEL_VIDEOS.length);
+      setProgress(0);
+    }, 320);
+  };
+
+  // ── Manual dot navigation ──
+  const jumpTo = (idx) => {
+    if (idx === vidIdx && stage === "playing") return;
+    setCaptionVis(false);
+    setFlash(true);
+    setTimeout(() => {
+      setFlash(false);
+      setVidIdx(idx);
+      setProgress(0);
+    }, 320);
+  };
+
+  const cur = REEL_VIDEOS[vidIdx];
+
+  return (
+    <section ref={sectionRef} id="presentation"
+      style={{ background: "#000", padding: "100px 24px 80px", position: "relative" }}>
+
+      {/* ── Global flash overlay ── */}
+      <div style={{
+        position: "fixed", inset: 0, zIndex: 500,
+        background: GOLD,
+        opacity: flash ? 1 : 0,
+        pointerEvents: "none",
+        transition: flash ? "opacity 0.05s ease" : "opacity 0.28s ease",
+      }} />
+
+      {/* ── Section heading ── */}
+      <FadeUp>
+        <div style={{ textAlign: "center", marginBottom: 56 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.35em", color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>
+            Exclusive Screening
+          </div>
+          <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(26px, 4.5vw, 48px)", fontWeight: 700, color: WHITE, margin: "0 0 12px", lineHeight: 1.1 }}>
+            The NS OJAS <span style={{ color: GOLD }}>Presentation</span>
+          </h2>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginTop: 16 }}>
+            <div style={{ height: 1, width: 48, background: GOLD_DIM }} />
+            <div style={{ width: 5, height: 5, borderRadius: "50%", background: GOLD }} />
+            <div style={{ height: 1, width: 48, background: GOLD_DIM }} />
+          </div>
+        </div>
+      </FadeUp>
+
+      {/* ── Theatre frame ── */}
+      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
+        <div style={{
+          position: "relative", width: "100%", aspectRatio: "16/9",
+          background: "#000", borderRadius: 4, overflow: "hidden",
+          border: "1px solid rgba(212,175,55,0.2)",
+          boxShadow: "0 0 80px rgba(0,0,0,0.8), 0 0 1px rgba(212,175,55,0.3)",
+        }}>
+
+          {/* ── CINEMATIC OPENING CARD ── */}
+          <AnimatePresence>
+            {stage === "card" && inView && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: cardPhase === "fadeout" ? 0 : 1 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+                style={{
+                  position: "absolute", inset: 0, zIndex: 10,
+                  background: "#000",
+                  display: "flex", flexDirection: "column",
+                  alignItems: "center", justifyContent: "center",
+                }}>
+                {/* Outer ring */}
+                <motion.div
+                  initial={{ scale: 0.85, opacity: 0 }}
+                  animate={{ scale: 1, opacity: cardPhase === "fadeout" ? 0 : 0.3 }}
+                  transition={{ duration: 1.2, ease: "easeOut" }}
+                  style={{ position: "absolute", width: 280, height: 280, borderRadius: "50%", border: "1px solid rgba(212,175,55,0.3)" }} />
+                <motion.div
+                  initial={{ scale: 0.7, opacity: 0 }}
+                  animate={{ scale: 1, opacity: cardPhase === "fadeout" ? 0 : 0.5 }}
+                  transition={{ duration: 1.4, ease: "easeOut", delay: 0.1 }}
+                  style={{ position: "absolute", width: 200, height: 200, borderRadius: "50%", border: "1px solid rgba(212,175,55,0.4)" }} />
+
+                {/* Text */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: cardPhase === "fadeout" ? 0 : 1, y: cardPhase === "fadeout" ? -8 : 0 }}
+                  transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
+                  style={{ textAlign: "center", position: "relative", zIndex: 2 }}>
+                  <div style={{ fontSize: "clamp(10px, 1.5vw, 13px)", letterSpacing: "0.45em", color: "rgba(212,175,55,0.6)", textTransform: "uppercase", marginBottom: 20, fontFamily: "system-ui, sans-serif" }}>
+                    ✦ &nbsp; A Motion Picture By &nbsp; ✦
+                  </div>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "clamp(18px, 3.5vw, 38px)", fontWeight: 700, color: WHITE, lineHeight: 1.15, marginBottom: 14, letterSpacing: "0.04em" }}>
+                    From the Lens of
+                  </div>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "clamp(22px, 4.5vw, 52px)", fontWeight: 700, color: GOLD, lineHeight: 1, letterSpacing: "0.02em" }}>
+                    NS OJAS
+                  </div>
+                  <div style={{ fontSize: "clamp(10px, 1.8vw, 16px)", letterSpacing: "0.55em", color: SILVER, textTransform: "uppercase", marginTop: 8, fontFamily: "system-ui, sans-serif", fontWeight: 300 }}>
+                    MEDIA &nbsp; LABS
+                  </div>
+                </motion.div>
+
+                {/* Bottom line */}
+                <motion.div
+                  initial={{ opacity: 0, scaleX: 0 }}
+                  animate={{ opacity: cardPhase === "fadeout" ? 0 : 0.5, scaleX: cardPhase === "fadeout" ? 0 : 1 }}
+                  transition={{ duration: 1, delay: 0.6 }}
+                  style={{ position: "absolute", bottom: "14%", left: "20%", right: "20%", height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* ── VIDEO PLAYER ── */}
+          {stage === "playing" && (
+            <video
+              ref={videoRef}
+              key={vidIdx}
+              src={cur.src}
+              autoPlay muted playsInline
+              onEnded={handleVideoEnd}
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          )}
+
+          {/* Dark vignette over video */}
+          {stage === "playing" && (
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.2) 100%)", pointerEvents: "none" }} />
+          )}
+
+          {/* ── HUD CORNERS ── */}
+          {stage === "playing" && (
+            <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+              <div style={{ position: "absolute", top: 14, left: 14, width: 22, height: 22, borderTop: "1.5px solid rgba(212,175,55,0.5)", borderLeft: "1.5px solid rgba(212,175,55,0.5)" }} />
+              <div style={{ position: "absolute", top: 14, right: 14, width: 22, height: 22, borderTop: "1.5px solid rgba(212,175,55,0.5)", borderRight: "1.5px solid rgba(212,175,55,0.5)" }} />
+              <div style={{ position: "absolute", bottom: 52, left: 14, width: 22, height: 22, borderBottom: "1.5px solid rgba(212,175,55,0.5)", borderLeft: "1.5px solid rgba(212,175,55,0.5)" }} />
+              <div style={{ position: "absolute", bottom: 52, right: 14, width: 22, height: 22, borderBottom: "1.5px solid rgba(212,175,55,0.5)", borderRight: "1.5px solid rgba(212,175,55,0.5)" }} />
+              {/* REC indicator */}
+              <div style={{ position: "absolute", top: 18, right: 48, display: "flex", alignItems: "center", gap: 5 }}>
+                <motion.div animate={{ opacity: [1, 0.2, 1] }} transition={{ duration: 1.4, repeat: Infinity }}
+                  style={{ width: 7, height: 7, borderRadius: "50%", background: "#ff3333" }} />
+                <span style={{ fontSize: 9, letterSpacing: "0.2em", color: "rgba(255,255,255,0.6)", fontFamily: "monospace" }}>REC</span>
+              </div>
+            </div>
+          )}
+
+          {/* ── CAPTION ── */}
+          <AnimatePresence>
+            {stage === "playing" && captionVis && (
+              <motion.div
+                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.6 }}
+                style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "16px 24px 20px", display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ fontSize: 10, letterSpacing: "0.25em", color: GOLD, textTransform: "uppercase", marginBottom: 5, fontFamily: "monospace" }}>
+                    {String(vidIdx + 1).padStart(2,"0")} / {String(REEL_VIDEOS.length).padStart(2,"0")} · {cur.tag}
+                  </div>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "clamp(14px, 2.2vw, 20px)", color: WHITE, fontWeight: 600 }}>
+                    {cur.label}
+                  </div>
+                </div>
+                <div style={{ fontSize: 9, letterSpacing: "0.2em", color: "rgba(212,175,55,0.5)", textTransform: "uppercase", fontFamily: "monospace" }}>
+                  NS OJAS · {new Date().getFullYear()}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* ── PROGRESS BAR ── */}
+          {stage === "playing" && (
+            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: "rgba(255,255,255,0.08)" }}>
+              <motion.div
+                style={{ height: "100%", background: `linear-gradient(90deg, ${GOLD_DIM}, ${GOLD})`, width: `${progress * 100}%`, transformOrigin: "left" }}
+                transition={{ duration: 0.1 }} />
+            </div>
+          )}
+        </div>
+
+        {/* ── DOT NAVIGATION ── */}
+        {stage === "playing" && (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 20, marginTop: 28 }}>
+            {REEL_VIDEOS.map((v, i) => (
+              <button key={i} onClick={() => jumpTo(i)}
+                style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 7, background: "none", border: "none", cursor: "pointer", padding: 0, opacity: i === vidIdx ? 1 : 0.4, transition: "opacity 0.3s" }}>
+                <div style={{ width: i === vidIdx ? 28 : 8, height: 8, borderRadius: 4, background: i === vidIdx ? GOLD : "rgba(255,255,255,0.3)", transition: "all 0.35s" }} />
+                <span style={{ fontSize: 9, letterSpacing: "0.2em", color: i === vidIdx ? GOLD : MUTED, textTransform: "uppercase", fontFamily: "monospace", whiteSpace: "nowrap" }}>
+                  {String(i + 1).padStart(2,"0")}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* ── FILM STRIP DECORATION ── */}
+        <div style={{ display: "flex", gap: 6, justifyContent: "center", marginTop: 20, opacity: 0.2 }}>
+          {[...Array(18)].map((_, i) => (
+            <div key={i} style={{ width: 10, height: 14, borderRadius: 1, border: "1px solid rgba(212,175,55,0.6)", background: i % 5 === 0 ? "rgba(212,175,55,0.15)" : "transparent" }} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── CLIENT VAULT ───────────────────────────────────────────────
 function ClientVault() {
   const [vaultId, setVaultId]     = useState("");
@@ -1250,6 +1515,7 @@ export default function NSojas() {
       <VaultSection />
       <MerchSection />
       <OurWorkSection />
+      <NSojasPresentation />
       <ClientVault />
       <TestimonialsSection />
       <FounderQuote />
