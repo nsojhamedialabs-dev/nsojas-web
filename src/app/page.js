@@ -224,7 +224,7 @@ function AerialSection() {
           display: block;
         }
       `}</style>
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center"}} className="grid-2col" style={{ }}>
+      <div className="grid-2col" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
         <FadeUp>
           <div style={{ position: "relative" }}>
             {/* Real aerial photo with Ken Burns effect */}
