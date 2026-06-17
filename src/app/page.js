@@ -146,7 +146,7 @@ function Hero() {
           Command the Sky.&nbsp;&nbsp;Engineer Perfection.
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.95 }}
-          style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+          className="hero-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
           <motion.a href="#contact" whileHover={{ scale: 1.03, boxShadow: "0 0 40px rgba(212,175,55,0.4)" }} whileTap={{ scale: 0.97 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "16px 40px", background: GOLD, color: OBSIDIAN, fontWeight: 700, fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", textDecoration: "none", borderRadius: 2 }}>
             Book for 2026 <ArrowRight size={15} />
@@ -171,7 +171,7 @@ function TrustStrip() {
   const orgs = ["IIT Tirupati", "IISER Tirupati", "Corporate Brands", "Luxury Weddings", "Real Estate Groups", "Cultural Institutions"];
   return (
     <div style={{ background: SURFACE, borderTop: `1px solid rgba(212,175,55,0.1)`, borderBottom: `1px solid rgba(212,175,55,0.1)`, padding: "28px 24px", overflow: "hidden" }}>
-      <div style={{ display: "flex", gap: 56, alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+      <div className="trust-strip" style={{ display: "flex", gap: 56, alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
         {orgs.map((o, i) => (
           <span key={i} style={{ fontSize: 11, letterSpacing: "0.25em", color: MUTED, textTransform: "uppercase", whiteSpace: "nowrap" }}>{o}</span>
         ))}
@@ -190,7 +190,7 @@ function StatsStrip() {
   ];
   return (
     <section id="about" style={{ background: CHARCOAL, padding: "72px 24px", borderTop: `1px solid rgba(212,175,55,0.08)`, borderBottom: `1px solid rgba(212,175,55,0.08)` }}>
-      <div style={{ maxWidth: 900, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 40, textAlign: "center" }}>
+      <div className="stats-grid" style={{ maxWidth: 900, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 40, textAlign: "center" }}>
         {stats.map((s, i) => (
           <FadeUp key={i} delay={i * 0.1}>
             <div>
@@ -207,7 +207,7 @@ function StatsStrip() {
 // ── AERIAL USP ─────────────────────────────────────────────────
 function AerialSection() {
   return (
-    <section id="aerial" style={{ background: OBSIDIAN, padding: "100px 24px", overflow: "hidden" }}>
+    <section id="aerial" className="section-pad" style={{ background: OBSIDIAN, padding: "100px 24px", overflow: "hidden" }}>
       <style>{`
         @keyframes kenBurns {
           0%   { transform: scale(1.0) translate(0px, 0px); }
@@ -224,7 +224,7 @@ function AerialSection() {
           display: block;
         }
       `}</style>
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center"}} className="grid-2col" style={{ }}>
         <FadeUp>
           <div style={{ position: "relative" }}>
             {/* Real aerial photo with Ken Burns effect */}
@@ -267,7 +267,7 @@ function AerialSection() {
         <FadeUp delay={0.2}>
           <div>
             <div style={{ fontSize: 11, letterSpacing: "0.35em", color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Flagship Capability</div>
-            <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: WHITE, lineHeight: 1.1, margin: "0 0 24px" }}>
+            <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(24px, 5.5vw, 44px)", fontWeight: 700, color: WHITE, lineHeight: 1.1, margin: "0 0 24px" }}>
               Aerial Cinematography<br /><span style={{ color: GOLD }}>&amp; Spatial Vision</span>
             </h2>
             <GoldLine />
@@ -461,7 +461,7 @@ function MerchSection() {
         </div>
         {/* Merch CTA banner */}
         <FadeUp delay={0.3}>
-          <div style={{ background: `linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.04) 100%)`, border: `1px solid rgba(212,175,55,0.25)`, borderRadius: 4, padding: "40px 48px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
+          <div className="bundle-banner" style={{ background: `linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.04) 100%)`, border: `1px solid rgba(212,175,55,0.25)`, borderRadius: 4, padding: "40px 48px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
             <div>
               <div style={{ fontSize: 11, letterSpacing: "0.3em", color: GOLD, textTransform: "uppercase", marginBottom: 10 }}>Exclusive Bundle Offer</div>
               <div style={{ fontFamily: "Georgia, serif", fontSize: "clamp(20px, 3vw, 28px)", color: WHITE, fontWeight: 600 }}>Book Photography + Get Merch Design at 30% Off</div>
@@ -713,7 +713,7 @@ function OurWorkSection() {
         </FadeUp>
 
         {/* Two column layout: Slideshow left, Before/After right */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 28 }}>
+        <div className="portfolio-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 28 }}>
           <FadeUp delay={0.1}>
             <div>
               <div style={{ fontSize: 11, letterSpacing: "0.2em", color: GOLD_DIM, textTransform: "uppercase", marginBottom: 14, display: "flex", alignItems: "center", gap: 8 }}>
@@ -1015,7 +1015,7 @@ function NSojasPresentation() {
         )}
 
         {/* ── FILM STRIP DECORATION ── */}
-        <div style={{ display: "flex", gap: 6, justifyContent: "center", marginTop: 20, opacity: 0.2 }}>
+        <div className="film-strip" style={{ display: "flex", gap: 6, justifyContent: "center", marginTop: 20, opacity: 0.2 }}>
           {[...Array(18)].map((_, i) => (
             <div key={i} style={{ width: 10, height: 14, borderRadius: 1, border: "1px solid rgba(212,175,55,0.6)", background: i % 5 === 0 ? "rgba(212,175,55,0.15)" : "transparent" }} />
           ))}
@@ -1082,8 +1082,8 @@ function ClientVault() {
           </p>
 
           <div style={{ maxWidth: 480, margin: "0 auto 20px" }}>
-            <div style={{ display: "flex" }}>
-              <div style={{ padding: "0 16px", background: "rgba(212,175,55,0.12)", border: "1px solid rgba(212,175,55,0.25)", borderRight: "none", borderRadius: "2px 0 0 2px", display: "flex", alignItems: "center" }}>
+            <div className="vault-input-row" style={{ display: "flex" }}>
+              <div className="vault-prefix" style={{ padding: "0 16px", background: "rgba(212,175,55,0.12)", border: "1px solid rgba(212,175,55,0.25)", borderRight: "none", borderRadius: "2px 0 0 2px", display: "flex", alignItems: "center" }}>
                 <span style={{ fontSize: 12, letterSpacing: "0.15em", color: GOLD, fontFamily: "monospace", fontWeight: 600 }}>OJAS</span>
               </div>
               <input
@@ -1347,7 +1347,7 @@ function ContactFooter() {
             </h2>
           </div>
         </FadeUp>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 80, alignItems: "start", marginBottom: 100 }}>
+        <div className="grid-2col grid-2col-contact" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 80, alignItems: "start", marginBottom: 100 }}>
           {/* Left */}
           <FadeUp>
             <div>
@@ -1369,7 +1369,7 @@ function ContactFooter() {
               </div>
               <div>
                 <div style={{ fontSize: 11, letterSpacing: "0.2em", color: GOLD_DIM, textTransform: "uppercase", marginBottom: 20 }}>Follow the Work</div>
-                <div style={{ display: "flex", gap: 16 }}>
+                <div className="social-btns" style={{ display: "flex", gap: 16 }}>
                   {[{ icon: <Camera size={20} />, label: "Instagram" }, { icon: <Mail size={20} />, label: "Email" }].map(({ icon, label }) => (
                     <motion.a key={label} href="#" whileHover={{ borderColor: GOLD, color: GOLD }}
                       style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 20px", border: `1px solid rgba(255,255,255,0.12)`, borderRadius: 2, color: MUTED, textDecoration: "none", fontSize: 12, letterSpacing: "0.1em", transition: "all 0.3s" }}>
@@ -1440,7 +1440,7 @@ function ContactFooter() {
           </FadeUp>
         </div>
         {/* Footer bar */}
-        <div style={{ borderTop: `1px solid rgba(212,175,55,0.12)`, padding: "32px 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
+        <div className="footer-bar" style={{ borderTop: `1px solid rgba(212,175,55,0.12)`, padding: "32px 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <Aperture size={18} color={GOLD} />
             <span style={{ fontFamily: "Georgia, serif", fontSize: 15, color: WHITE, fontWeight: 700, letterSpacing: "0.1em" }}>
@@ -1498,6 +1498,8 @@ export default function NSojas() {
         ::selection { background: rgba(212,175,55,0.3); }
         input::placeholder, textarea::placeholder { color: #555560; }
         select option { background: #16161A; color: #F5F5F0; }
+
+        /* ── NAVBAR ── */
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
           .mobile-menu-btn { display: block !important; }
@@ -1505,12 +1507,112 @@ export default function NSojas() {
         @media (min-width: 769px) {
           .mobile-menu-btn { display: none !important; }
         }
+
+        /* ── FORCE ALL 2-COL GRIDS TO SINGLE COL ON MOBILE ── */
         @media (max-width: 768px) {
-          section > div[style*="grid-template-columns: 1fr 1fr"],
-          section > div > div[style*="grid-template-columns: 1fr 1fr"],
-          section > div[style*="grid-template-columns: 1fr 1.2fr"] {
+          .grid-2col {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
+          }
+          .grid-2col-contact {
+            grid-template-columns: 1fr !important;
+            gap: 48px !important;
+          }
+        }
+
+        /* ── SECTION PADDING MOBILE ── */
+        @media (max-width: 768px) {
+          .section-pad { padding: 64px 20px !important; }
+          .section-pad-hero { padding: 0 20px !important; }
+        }
+
+        /* ── AERIAL SECTION TEXT OVERFLOW ── */
+        @media (max-width: 768px) {
+          .aerial-heading { font-size: 28px !important; }
+          .aerial-text { overflow: visible !important; word-break: break-word; }
+        }
+
+        /* ── STATS GRID ── */
+        @media (max-width: 480px) {
+          .stats-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 32px !important;
+          }
+        }
+
+        /* ── PORTFOLIO TWO-COL ── */
+        @media (max-width: 768px) {
+          .portfolio-grid {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+        }
+
+        /* ── TRUST STRIP ── */
+        @media (max-width: 768px) {
+          .trust-strip {
+            gap: 20px !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            padding: 24px 20px !important;
+          }
+        }
+
+        /* ── HERO BUTTONS ── */
+        @media (max-width: 480px) {
+          .hero-btns {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 12px !important;
+          }
+          .hero-btns a {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+        }
+
+        /* ── MERCH BUNDLE BANNER ── */
+        @media (max-width: 768px) {
+          .bundle-banner {
+            flex-direction: column !important;
+            text-align: center !important;
+            padding: 32px 24px !important;
+          }
+        }
+
+        /* ── KEN BURNS / PORTFOLIO ── */
+        @media (max-width: 768px) {
+          .kb-label { font-size: 9px !important; }
+        }
+
+        /* ── VAULT INPUT ── */
+        @media (max-width: 480px) {
+          .vault-input-row { flex-direction: column !important; }
+          .vault-input-row .vault-prefix { border-right: 1px solid rgba(212,175,55,0.25) !important; border-bottom: none; border-radius: 2px 2px 0 0 !important; padding: 12px 16px !important; }
+          .vault-input-row input { border-radius: 0 0 2px 2px !important; }
+        }
+
+        /* ── FILM STRIP MOBILE ── */
+        @media (max-width: 480px) {
+          .film-strip { display: none !important; }
+        }
+
+        /* ── TESTIMONIAL BLOCKQUOTE ── */
+        @media (max-width: 480px) {
+          .testimonial-quote { font-size: 17px !important; }
+        }
+
+        /* ── CONTACT SOCIAL BUTTONS ── */
+        @media (max-width: 480px) {
+          .social-btns { flex-wrap: wrap !important; }
+        }
+
+        /* ── FOOTER BAR ── */
+        @media (max-width: 768px) {
+          .footer-bar {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
           }
         }
       `}</style>
