@@ -578,36 +578,39 @@ function KenBurnsSlideshow() {
         </AnimatePresence>
       </div>
 
-      {/* Caption bottom */}
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 24px", display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
+      {/* Caption bottom — label only, no long text on mobile */}
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "12px 16px", background: "linear-gradient(transparent, rgba(10,10,12,0.92))" }}>
         <AnimatePresence mode="wait">
           <motion.div key={current}
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.6, delay: 0.3 }}>
-            <div style={{ fontFamily: "Georgia, serif", fontSize: "clamp(16px, 2.5vw, 22px)", color: WHITE, fontWeight: 600, marginBottom: 4 }}>
-              {showcaseSlides[current].label}
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+            {/* Left: title only — no caption text that wraps */}
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontFamily: "Georgia, serif", fontSize: "clamp(13px, 2.2vw, 20px)", color: WHITE, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {showcaseSlides[current].label}
+              </div>
+              <div style={{ fontSize: "clamp(9px, 1.5vw, 11px)", letterSpacing: "0.12em", color: "rgba(212,175,55,0.8)", textTransform: "uppercase", marginTop: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {showcaseSlides[current].caption}
+              </div>
             </div>
-            <div style={{ fontSize: 12, letterSpacing: "0.15em", color: "rgba(212,175,55,0.8)", textTransform: "uppercase" }}>
-              {showcaseSlides[current].caption}
+            {/* Right: Prev / Next — always pinned right, never pushed */}
+            <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+              <motion.button onClick={goPrev} whileHover={{ background: "rgba(212,175,55,0.2)" }} whileTap={{ scale: 0.9 }}
+                style={{ width: 32, height: 32, borderRadius: "50%", border: `1px solid rgba(212,175,55,0.4)`, background: "rgba(10,10,12,0.6)", color: GOLD, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <ChevronLeft size={14} />
+              </motion.button>
+              <motion.button onClick={goNext} whileHover={{ background: "rgba(212,175,55,0.2)" }} whileTap={{ scale: 0.9 }}
+                style={{ width: 32, height: 32, borderRadius: "50%", border: `1px solid rgba(212,175,55,0.4)`, background: "rgba(10,10,12,0.6)", color: GOLD, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <ChevronRight size={14} />
+              </motion.button>
             </div>
           </motion.div>
         </AnimatePresence>
-
-        {/* Prev / Next */}
-        <div style={{ display: "flex", gap: 8 }}>
-          <motion.button onClick={goPrev} whileHover={{ background: "rgba(212,175,55,0.2)" }} whileTap={{ scale: 0.9 }}
-            style={{ width: 36, height: 36, borderRadius: "50%", border: `1px solid rgba(212,175,55,0.4)`, background: "rgba(10,10,12,0.5)", color: GOLD, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s" }}>
-            <ChevronLeft size={16} />
-          </motion.button>
-          <motion.button onClick={goNext} whileHover={{ background: "rgba(212,175,55,0.2)" }} whileTap={{ scale: 0.9 }}
-            style={{ width: 36, height: 36, borderRadius: "50%", border: `1px solid rgba(212,175,55,0.4)`, background: "rgba(10,10,12,0.5)", color: GOLD, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s" }}>
-            <ChevronRight size={16} />
-          </motion.button>
-        </div>
       </div>
 
       {/* Dot indicators */}
-      <div style={{ position: "absolute", bottom: 20, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 6 }}>
+      <div style={{ position: "absolute", bottom: 52, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 6 }}>
         {showcaseSlides.map((_, i) => (
           <button key={i} onClick={() => goTo(i)}
             style={{ width: i === current ? 20 : 6, height: 6, borderRadius: 3, background: i === current ? GOLD : "rgba(255,255,255,0.25)", border: "none", cursor: "pointer", transition: "all 0.35s", padding: 0 }} />
