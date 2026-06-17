@@ -836,14 +836,8 @@ function NSojasPresentation() {
     <section ref={sectionRef} id="presentation"
       style={{ background: "#000", padding: "100px 24px 80px", position: "relative" }}>
 
-      {/* ── Global flash overlay ── */}
-      <div style={{
-        position: "fixed", inset: 0, zIndex: 500,
-        background: GOLD,
-        opacity: flash ? 1 : 0,
-        pointerEvents: "none",
-        transition: flash ? "opacity 0.05s ease" : "opacity 0.28s ease",
-      }} />
+
+      {/* flash moved inside theatre frame below */}
 
       {/* ── Section heading ── */}
       <FadeUp>
@@ -870,6 +864,16 @@ function NSojasPresentation() {
           border: "1px solid rgba(212,175,55,0.2)",
           boxShadow: "0 0 80px rgba(0,0,0,0.8), 0 0 1px rgba(212,175,55,0.3)",
         }}>
+
+          {/* ── CONTAINED FLASH OVERLAY — shutter effect inside frame only ── */}
+          <div style={{
+            position: "absolute", inset: 0, zIndex: 50,
+            background: GOLD,
+            opacity: flash ? 1 : 0,
+            pointerEvents: "none",
+            transition: flash ? "opacity 0.05s ease" : "opacity 0.28s ease",
+            borderRadius: 4,
+          }} />
 
           {/* ── CINEMATIC OPENING CARD ── */}
           <AnimatePresence>
