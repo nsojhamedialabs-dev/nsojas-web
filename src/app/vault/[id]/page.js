@@ -232,7 +232,7 @@ export default function VaultReel() {
     );
   }
 
-  const photoSrc  = (i) => `/vault/${id}/${String(i + 1).padStart(2,"0")}.jpg`;
+  const photoSrc = (i) => `/vault/${id}/${String(i + 1).padStart(2,"0")}.webp`;
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "#000", overflow: "hidden", fontFamily: "Georgia, serif" }}>
