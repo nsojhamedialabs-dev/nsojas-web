@@ -141,10 +141,52 @@ function Hero() {
             <span style={{ fontSize: "clamp(18px, 4vw, 40px)", fontWeight: 400, letterSpacing: "0.5em", color: SILVER, display: "block", marginTop: 12, fontFamily: "system-ui, sans-serif", textTransform: "uppercase" }}>Media Labs</span>
           </h1>
         </motion.div>
-        <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.7 }}
-          style={{ fontSize: "clamp(13px, 2.5vw, 18px)", letterSpacing: "0.25em", textTransform: "uppercase", color: MUTED, marginTop: 28, marginBottom: 52, fontWeight: 300 }}>
-          Command the Sky.&nbsp;&nbsp;Engineer Perfection.
-        </motion.p>
+        {/* ── TAGLINE — One Studio. Infinite Vision. ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.7 }}
+          style={{ marginTop: 28, marginBottom: 52, display: "flex", alignItems: "center", justifyContent: "center", gap: 0 }}>
+          <style>{`
+            @keyframes taglineGlow {
+              0%   { text-shadow: 0 0 0px rgba(212,175,55,0); letter-spacing: 0.22em; }
+              50%  { text-shadow: 0 0 18px rgba(212,175,55,0.35); letter-spacing: 0.28em; }
+              100% { text-shadow: 0 0 0px rgba(212,175,55,0); letter-spacing: 0.22em; }
+            }
+            @keyframes dotPulse {
+              0%,100% { transform: scale(1);   opacity: 0.6; }
+              50%      { transform: scale(1.6); opacity: 1;   }
+            }
+            @keyframes wordFloat {
+              0%,100% { transform: translateY(0px);  }
+              50%      { transform: translateY(-4px); }
+            }
+            .tl-one      { animation: wordFloat 3.8s ease-in-out infinite; }
+            .tl-studio   { animation: wordFloat 3.8s ease-in-out infinite 0.18s; }
+            .tl-dot      { animation: dotPulse  2.4s ease-in-out infinite; display: inline-block; }
+            .tl-infinite { animation: wordFloat 3.8s ease-in-out infinite 0.36s; }
+            .tl-vision   { animation: wordFloat 3.8s ease-in-out infinite 0.54s; }
+            .tl-wrap     { animation: taglineGlow 4s ease-in-out infinite; }
+          `}</style>
+          <p className="tl-wrap" style={{
+            fontSize: "clamp(13px, 2.4vw, 18px)",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: MUTED,
+            fontWeight: 300,
+            margin: 0,
+            display: "flex", alignItems: "center", gap: "0.3em",
+          }}>
+            <span className="tl-one"    style={{ color: SILVER }}>One</span>
+            <span className="tl-studio" style={{ color: SILVER }}>Studio</span>
+            <span className="tl-dot"    style={{ color: GOLD,   fontSize: "clamp(16px, 2.8vw, 22px)", lineHeight: 1 }}>·</span>
+            <span className="tl-infinite" style={{
+              color: GOLD,
+              fontWeight: 400,
+            }}>Infinite</span>
+            <span className="tl-vision" style={{ color: SILVER }}>Vision</span>
+          </p>
+        </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.95 }}
           className="hero-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
           <motion.a href="#contact" whileHover={{ scale: 1.03, boxShadow: "0 0 40px rgba(212,175,55,0.4)" }} whileTap={{ scale: 0.97 }}
