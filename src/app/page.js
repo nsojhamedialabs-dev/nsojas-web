@@ -498,6 +498,12 @@ const showcaseSlides = [
     caption: "Custom Mugs · Keychains · Personalised Print",
     tag: "Merch Studio",
   },
+  {
+    src: "/advaita-tao.jpg",
+    label: "The Advaita-Tao Collection",
+    caption: "Where Philosophy Meets Photography",
+    tag: "Signature Design",
+  },
 ];
 
 function KenBurnsSlideshow() {
@@ -762,6 +768,7 @@ const REEL_VIDEOS = [
   { src: "/ai-restoration-sota.mp4", label: "AI Legacy Restoration",     tag: "The Showstopper"     },
   { src: "/premium-apparel-sota.mp4",label: "Premium Fest Apparel",      tag: "Merch Studio"        },
   { src: "/institutional-media.mp4", label: "Institutional Media",       tag: "Pillar I"            },
+  { src: "/advaita-tao.mp4",         label: "The Advaita-Tao Collection", tag: "Signature Masterpiece" },
 ];
 
 function NSojasPresentation() {
