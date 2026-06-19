@@ -1277,19 +1277,32 @@ function ClientVault() {
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                   </div>
                   <div style={{ fontSize: 11, letterSpacing: "0.3em", color: GOLD, textTransform: "uppercase", marginBottom: 12 }}>Vault Recognised</div>
-                  <h3 style={{ fontFamily: "Georgia, serif", fontSize: 22, color: WHITE, marginBottom: 16, fontWeight: 600 }}>Your Vault is Being Prepared</h3>
+                  <h3 style={{ fontFamily: "Georgia, serif", fontSize: 22, color: WHITE, marginBottom: 16, fontWeight: 600 }}>Your Vault is Ready</h3>
                   <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.8, marginBottom: 12 }}>
-                    We've located your Client ID. Your private gallery is currently being curated with the care and precision your memories deserve.
+                    We've located your Client ID. Your private cinematic gallery is ready and waiting for you.
                   </p>
                   <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, marginBottom: 32 }}>
-                    Simha will personally notify you the moment your Vault is ready. Expect an exclusive access link via WhatsApp within{" "}
-                    <span style={{ color: GOLD }}>24 hours</span>.
+                    Click below to enter your exclusive NS OJAS Vault and experience your memories in full cinematic glory.
                   </p>
-                  <motion.button onClick={closeModal}
-                    whileHover={{ boxShadow: "0 0 24px rgba(212,175,55,0.3)" }}
-                    style={{ padding: "14px 36px", background: GOLD, color: OBSIDIAN, fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", border: "none", borderRadius: 2, cursor: "pointer", fontFamily: "inherit" }}>
-                    Close
-                  </motion.button>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "stretch", width: "100%" }}>
+                    <motion.button
+                      onClick={() => {
+                        closeModal();
+                        window.location.href = `/vault/${vaultId.trim().toUpperCase()}`;
+                      }}
+                      whileHover={{ boxShadow: "0 0 32px rgba(212,175,55,0.5)" }}
+                      whileTap={{ scale: 0.97 }}
+                      style={{ width: "100%", padding: "18px 24px", background: GOLD, color: OBSIDIAN, fontSize: "clamp(10px, 2.5vw, 12px)", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", border: "none", borderRadius: 2, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={OBSIDIAN} strokeWidth="2.5" strokeLinecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                      Enter Your Vault
+                    </motion.button>
+                    <motion.button
+                      onClick={closeModal}
+                      whileHover={{ color: GOLD }}
+                      style={{ background: "none", border: "none", color: MUTED, fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", cursor: "pointer", fontFamily: "inherit", padding: "10px 16px" }}>
+                      Close
+                    </motion.button>
+                  </div>
                 </motion.div>
               )}
 
