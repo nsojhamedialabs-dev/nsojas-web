@@ -423,10 +423,10 @@ export default function VaultReel() {
             transition: `opacity ${FADE_DURATION}ms cubic-bezier(0.4,0,0.2,1)`,
           }}>
             <img
-              src={photoSrc(nextIdx)}
+              src={photoSrc(frameIdx)}
               alt=""
               className="photo-breathe"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }}
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
           </div>
 
