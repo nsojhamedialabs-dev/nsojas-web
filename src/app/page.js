@@ -1133,34 +1133,79 @@ function ClientVault() {
             Your photographs. Your memories. Your private universe. Every NS OJAS client receives an exclusive Vault ID — your personal key to a world built only for you.
           </p>
 
-          <div style={{ maxWidth: 480, margin: "0 auto 20px" }}>
-            <div className="vault-input-row" style={{ display: "flex" }}>
-              <div className="vault-prefix" style={{ padding: "0 16px", background: "rgba(212,175,55,0.12)", border: "1px solid rgba(212,175,55,0.25)", borderRight: "none", borderRadius: "2px 0 0 2px", display: "flex", alignItems: "center" }}>
-                <span style={{ fontSize: 12, letterSpacing: "0.15em", color: GOLD, fontFamily: "monospace", fontWeight: 600 }}>OJAS</span>
+          <div style={{ width: "100%", maxWidth: 480, margin: "0 auto 20px" }}>
+            {/* OJAS prefix + input stacked on mobile, row on desktop */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+              {/* Prefix label */}
+              <div style={{
+                padding: "10px 16px",
+                background: "rgba(212,175,55,0.12)",
+                border: "1px solid rgba(212,175,55,0.25)",
+                borderBottom: "none",
+                borderRadius: "2px 2px 0 0",
+                display: "flex", alignItems: "center",
+              }}>
+                <span style={{ fontSize: 11, letterSpacing: "0.2em", color: GOLD, fontFamily: "monospace", fontWeight: 600 }}>
+                  OJAS CLIENT ID
+                </span>
               </div>
+              {/* Input full width */}
               <input
                 ref={inputRef}
                 type="text"
                 value={vaultId}
                 onChange={e => setVaultId(e.target.value.toUpperCase())}
                 onKeyDown={e => { if (e.key === "Enter") handleEnter(); }}
-                placeholder="— 2026 — WED — 0001"
+                placeholder="2026 — ENG — 0001"
                 maxLength={24}
-                style={{ flex: 1, padding: "18px 20px", background: SURFACE, border: "1px solid rgba(212,175,55,0.25)", borderRadius: "0 2px 2px 0", color: GOLD, fontSize: 15, letterSpacing: "0.2em", fontFamily: "monospace", outline: "none" }}
+                style={{
+                  width: "100%",
+                  padding: "16px 20px",
+                  background: SURFACE,
+                  border: "1px solid rgba(212,175,55,0.25)",
+                  borderRadius: "0 0 2px 2px",
+                  color: GOLD,
+                  fontSize: "clamp(13px, 3.5vw, 16px)",
+                  letterSpacing: "0.18em",
+                  fontFamily: "monospace",
+                  outline: "none",
+                  boxSizing: "border-box",
+                  textAlign: "center",
+                }}
                 onFocus={e => { e.target.style.borderColor = GOLD; }}
                 onBlur={e => { e.target.style.borderColor = "rgba(212,175,55,0.25)"; }}
               />
             </div>
           </div>
 
-          <motion.button
-            onClick={handleEnter}
-            whileHover={{ boxShadow: "0 0 40px rgba(212,175,55,0.45)", scale: 1.02 }}
-            whileTap={{ scale: 0.97 }}
-            style={{ padding: "18px 56px", background: GOLD, color: OBSIDIAN, fontSize: 12, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", border: "none", borderRadius: 2, cursor: "pointer", fontFamily: "inherit", display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 32 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={OBSIDIAN} strokeWidth="2.5" strokeLinecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-            Enter Vault
-          </motion.button>
+          {/* Enter Vault button — full width on mobile */}
+          <div style={{ width: "100%", maxWidth: 480, margin: "0 auto 32px", padding: "0 0px" }}>
+            <motion.button
+              onClick={handleEnter}
+              whileHover={{ boxShadow: "0 0 40px rgba(212,175,55,0.45)" }}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                width: "100%",
+                padding: "18px 24px",
+                background: GOLD,
+                color: OBSIDIAN,
+                fontSize: "clamp(10px, 2.5vw, 12px)",
+                fontWeight: 700,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                border: "none",
+                borderRadius: 2,
+                cursor: "pointer",
+                fontFamily: "inherit",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+              }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={OBSIDIAN} strokeWidth="2.5" strokeLinecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+              Enter Vault
+            </motion.button>
+          </div>
 
           <div style={{ display: "flex", alignItems: "flex-start", gap: 12, maxWidth: 480, margin: "0 auto", padding: "20px 24px", background: "rgba(212,175,55,0.04)", border: "1px solid rgba(212,175,55,0.12)", borderRadius: 2, textAlign: "left" }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" style={{ marginTop: 2, flexShrink: 0 }}><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -1186,7 +1231,7 @@ function ClientVault() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 16 }}
               transition={{ type: "spring", stiffness: 280, damping: 24 }}
-              style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 301, width: "min(520px, 92vw)", background: SURFACE, border: "1px solid rgba(212,175,55,0.3)", borderRadius: 4, padding: "52px 48px", textAlign: "center" }}>
+              style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 301, width: "min(520px, 92vw)", maxHeight: "90vh", overflowY: "auto", background: SURFACE, border: "1px solid rgba(212,175,55,0.3)", borderRadius: 4, padding: "clamp(28px, 5vw, 52px) clamp(20px, 5vw, 48px)", textAlign: "center" }}>
 
               <div style={{ position: "absolute", top: 12, left: 12, width: 16, height: 16, borderTop: "1.5px solid rgba(212,175,55,0.5)", borderLeft: "1.5px solid rgba(212,175,55,0.5)" }} />
               <div style={{ position: "absolute", top: 12, right: 12, width: 16, height: 16, borderTop: "1.5px solid rgba(212,175,55,0.5)", borderRight: "1.5px solid rgba(212,175,55,0.5)" }} />
@@ -1205,39 +1250,26 @@ function ClientVault() {
               )}
 
               {stage === "preparing" && (
-  <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-    <div style={{ width: 64, height: 64, borderRadius: "50%", background: "rgba(212,175,55,0.1)", border: "1px solid rgba(212,175,55,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 28px" }}>
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    </div>
-    <div style={{ fontSize: 11, letterSpacing: "0.3em", color: GOLD, textTransform: "uppercase", marginBottom: 12 }}>Vault Recognised</div>
-    <h3 style={{ fontFamily: "Georgia, serif", fontSize: 22, color: WHITE, marginBottom: 16, fontWeight: 600 }}>Your Vault is Ready</h3>
-    <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.8, marginBottom: 12 }}>
-      We've located your Client ID. Your private cinematic gallery is ready and waiting for you.
-    </p>
-    <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, marginBottom: 32 }}>
-      Click below to enter your exclusive NS OJAS Vault and experience your memories in full cinematic glory.
-    </p>
-    <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-      <motion.button
-        onClick={() => {
-          closeModal();
-          window.location.href = `/vault/${vaultId.trim().toUpperCase()}`;
-        }}
-        whileHover={{ boxShadow: "0 0 32px rgba(212,175,55,0.5)", scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
-        style={{ padding: "16px 48px", background: GOLD, color: OBSIDIAN, fontSize: 11, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", border: "none", borderRadius: 2, cursor: "pointer", fontFamily: "inherit", display: "inline-flex", alignItems: "center", gap: 10 }}>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={OBSIDIAN} strokeWidth="2.5" strokeLinecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-        Enter Your Vault
-      </motion.button>
-      <motion.button
-        onClick={closeModal}
-        whileHover={{ color: GOLD }}
-        style={{ background: "none", border: "none", color: MUTED, fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", cursor: "pointer", fontFamily: "inherit", padding: "8px 16px" }}>
-        Close
-      </motion.button>
-    </div>
-  </motion.div>
-)}
+                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                  <div style={{ width: 64, height: 64, borderRadius: "50%", background: "rgba(212,175,55,0.1)", border: "1px solid rgba(212,175,55,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 28px" }}>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <div style={{ fontSize: 11, letterSpacing: "0.3em", color: GOLD, textTransform: "uppercase", marginBottom: 12 }}>Vault Recognised</div>
+                  <h3 style={{ fontFamily: "Georgia, serif", fontSize: 22, color: WHITE, marginBottom: 16, fontWeight: 600 }}>Your Vault is Being Prepared</h3>
+                  <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.8, marginBottom: 12 }}>
+                    We've located your Client ID. Your private gallery is currently being curated with the care and precision your memories deserve.
+                  </p>
+                  <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, marginBottom: 32 }}>
+                    Simha will personally notify you the moment your Vault is ready. Expect an exclusive access link via WhatsApp within{" "}
+                    <span style={{ color: GOLD }}>24 hours</span>.
+                  </p>
+                  <motion.button onClick={closeModal}
+                    whileHover={{ boxShadow: "0 0 24px rgba(212,175,55,0.3)" }}
+                    style={{ padding: "14px 36px", background: GOLD, color: OBSIDIAN, fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", border: "none", borderRadius: 2, cursor: "pointer", fontFamily: "inherit" }}>
+                    Close
+                  </motion.button>
+                </motion.div>
+              )}
 
               {stage === "notfound" && (
                 <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -1253,7 +1285,7 @@ function ClientVault() {
                     NS OJAS Client IDs follow the format:<br />
                     <span style={{ fontFamily: "monospace", color: GOLD, fontSize: 13, letterSpacing: "0.15em" }}>OJAS-2026-WED-0001</span>
                   </p>
-                  <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+                  <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", flexDirection: "column", alignItems: "stretch" }}>
                     <motion.button onClick={closeModal}
                       whileHover={{ borderColor: GOLD, color: GOLD }}
                       style={{ padding: "14px 28px", background: "transparent", color: MUTED, fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 2, cursor: "pointer", fontFamily: "inherit", transition: "all 0.2s" }}>
