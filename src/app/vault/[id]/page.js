@@ -155,8 +155,10 @@ export default function VaultReel() {
   // ── Opening sequence ────────────────────────────────────────
   useEffect(() => {
     if (!client) return;
-    // 800ms pure black → particles appear → title sequence
-    after(800, () => {
+
+    // Wait for fonts + first image to be truly ready before starting,
+    // so the intro is never missed on first load (only replay has everything cached).
+    const startSequence = () => {
       setParticles(true);
       setPhase("titlecard");
       after(600,  () => setTitleStep(1)); // line appears
@@ -171,7 +173,34 @@ export default function VaultReel() {
         setOpacity(0);
         after(80, () => setOpacity(1));
       });
-    });
+    };
+
+    // Preload the very first photo, then wait for fonts —
+    // only THEN kick off the cinematic sequence.
+    const firstImg = new Image();
+    firstImg.src = `/vault/${id}/01.webp`;
+
+    const kick = () => {
+      // Extra 600ms black pause so the user's eyes settle on the screen
+      after(600, startSequence);
+    };
+
+    if (document.fonts && document.fonts.ready) {
+      // Wait for both: fonts AND first image
+      Promise.all([
+        document.fonts.ready,
+        new Promise(res => {
+          if (firstImg.complete) res();
+          else { firstImg.onload = res; firstImg.onerror = res; }
+        }),
+      ]).then(kick);
+    } else {
+      // Fallback for browsers without FontFaceSet API
+      firstImg.onload  = kick;
+      firstImg.onerror = kick;
+      if (firstImg.complete) kick();
+    }
+
     return clear;
   }, [client]);
 
@@ -272,10 +301,7 @@ export default function VaultReel() {
           from { transform: translateY(-100%); }
           to   { transform: translateY(500%);  }
         }
-        .photo-breathe { 
-          animation: breathe 12s ease-in-out infinite; 
-          transform-origin: top center; 
-        }
+        .photo-breathe { animation: breathe 12s ease-in-out infinite; }
         .line-grow     { animation: lineGrow 1.2s cubic-bezier(0.16,1,0.3,1) forwards; }
         .slide-up      { animation: fadeSlideUp 1s cubic-bezier(0.16,1,0.3,1) forwards; }
         .fade-in-el    { animation: fadeIn 1.4s ease forwards; }
@@ -307,6 +333,15 @@ export default function VaultReel() {
           .photo-breathe { animation: none !important; }
           .scanline      { animation: none !important; }
           .heartbeat     { animation: none !important; }
+        }
+
+        /* ── MOBILE: show full photo, no cropping ── */
+        @media (max-width: 768px) {
+          .reel-photo {
+            object-fit: contain !important;
+            object-position: center center !important;
+            background: #000;
+          }
         }
       `}</style>
 
@@ -425,8 +460,8 @@ export default function VaultReel() {
             <img
               src={photoSrc(frameIdx)}
               alt=""
-              className="photo-breathe"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              className="photo-breathe reel-photo"
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }}
             />
           </div>
 
@@ -440,8 +475,8 @@ export default function VaultReel() {
             <img
               src={photoSrc(nextIdx)}
               alt=""
-              className="photo-breathe"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              className="photo-breathe reel-photo"
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }}
             />
           </div>
 
