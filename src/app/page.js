@@ -1221,17 +1221,39 @@ function ClientVault() {
       <AnimatePresence>
         {modalOpen && (
           <>
+            {/* Backdrop + centered modal wrapper */}
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={closeModal}
-              style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 300, backdropFilter: "blur(8px)" }} />
+              style={{
+                position: "fixed", inset: 0, zIndex: 300,
+                background: "rgba(0,0,0,0.85)",
+                backdropFilter: "blur(8px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "20px",
+              }}
+              onClick={closeModal}>
 
             <motion.div
               initial={{ opacity: 0, scale: 0.88, y: 32 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 16 }}
               transition={{ type: "spring", stiffness: 280, damping: 24 }}
-              style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 301, width: "min(520px, 92vw)", maxHeight: "90vh", overflowY: "auto", background: SURFACE, border: "1px solid rgba(212,175,55,0.3)", borderRadius: 4, padding: "clamp(28px, 5vw, 52px) clamp(20px, 5vw, 48px)", textAlign: "center" }}>
+              onClick={e => e.stopPropagation()}
+              style={{
+                position: "relative",
+                width: "100%",
+                maxWidth: 520,
+                maxHeight: "88vh",
+                overflowY: "auto",
+                background: SURFACE,
+                border: "1px solid rgba(212,175,55,0.3)",
+                borderRadius: 4,
+                padding: "clamp(24px, 5vw, 48px) clamp(20px, 5vw, 44px)",
+                textAlign: "center",
+                zIndex: 301,
+              }}>
 
               <div style={{ position: "absolute", top: 12, left: 12, width: 16, height: 16, borderTop: "1.5px solid rgba(212,175,55,0.5)", borderLeft: "1.5px solid rgba(212,175,55,0.5)" }} />
               <div style={{ position: "absolute", top: 12, right: 12, width: 16, height: 16, borderTop: "1.5px solid rgba(212,175,55,0.5)", borderRight: "1.5px solid rgba(212,175,55,0.5)" }} />
@@ -1304,6 +1326,7 @@ function ClientVault() {
                 <button onClick={closeModal}
                   style={{ position: "absolute", top: 16, right: 20, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 20, lineHeight: 1, padding: 4 }}>✕</button>
               )}
+            </motion.div>
             </motion.div>
           </>
         )}
