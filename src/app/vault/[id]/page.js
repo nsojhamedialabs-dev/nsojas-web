@@ -272,7 +272,10 @@ export default function VaultReel() {
           from { transform: translateY(-100%); }
           to   { transform: translateY(500%);  }
         }
-        .photo-breathe { animation: breathe 12s ease-in-out infinite; }
+        .photo-breathe { 
+          animation: breathe 12s ease-in-out infinite; 
+          transform-origin: top center; 
+        }
         .line-grow     { animation: lineGrow 1.2s cubic-bezier(0.16,1,0.3,1) forwards; }
         .slide-up      { animation: fadeSlideUp 1s cubic-bezier(0.16,1,0.3,1) forwards; }
         .fade-in-el    { animation: fadeIn 1.4s ease forwards; }
@@ -420,10 +423,10 @@ export default function VaultReel() {
             transition: `opacity ${FADE_DURATION}ms cubic-bezier(0.4,0,0.2,1)`,
           }}>
             <img
-              src={photoSrc(frameIdx)}
+              src={photoSrc(nextIdx)}
               alt=""
               className="photo-breathe"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }}
             />
           </div>
 
