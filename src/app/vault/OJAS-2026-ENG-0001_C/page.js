@@ -33,7 +33,7 @@ function easeInOut(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
 function easeOut(t)   { return 1 - Math.pow(1-t, 3); }
 function lerp(a, b, t){ return a + (b-a)*t; }
 
-// ── PARTICLE SYSTEM ─────────────────────────────────────────────
+// ── DUAL-ENGINE PARTICLE CANVAS (GOLD DUST & ROSE PETALS) ──────
 function ParticleCanvas({ active }) {
   const canvasRef = useRef(null);
   const rafRef    = useRef(null);
@@ -47,43 +47,83 @@ function ParticleCanvas({ active }) {
     resize();
     window.addEventListener("resize", resize);
 
-    const particles = Array.from({ length: 60 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.1 + 0.2,
-      vx: (Math.random() - 0.5) * 0.12,
-      vy: -Math.random() * 0.18 - 0.05,
-      alpha: Math.random() * 0.5 + 0.1,
-      flicker: Math.random() * Math.PI * 2,
-      flickerSpeed: Math.random() * 0.014 + 0.004,
-      gold: Math.random() > 0.45,
-    }));
+    // Generate dual-particle system
+    const particles = Array.from({ length: 80 }, () => {
+      const isPetal = Math.random() > 0.7; // 30% are rose petals
+      return {
+        type: isPetal ? "petal" : "dust",
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.3,
+        // Petal specific properties
+        size: Math.random() * 6 + 5,
+        vx: isPetal ? (Math.random() - 0.5) * 0.8 : (Math.random() - 0.5) * 0.12,
+        vy: isPetal ? Math.random() * 1.5 + 0.5 : -Math.random() * 0.18 - 0.05, // Petals fall, dust rises
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: Math.random() * 0.02 + 0.01,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.08,
+        alpha: isPetal ? Math.random() * 0.5 + 0.3 : Math.random() * 0.5 + 0.1,
+        gold: Math.random() > 0.45, // For dust
+      };
+    });
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
       particles.forEach(p => {
-        p.x += p.vx; p.y += p.vy;
-        p.flicker += p.flickerSpeed;
-        const a = p.alpha * (0.5 + 0.5 * Math.sin(p.flicker));
-        if (p.y < -10) p.y = canvas.height + 5;
-        if (p.x < -10) p.x = canvas.width + 5;
-        if (p.x > canvas.width + 10) p.x = -5;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.gold
-          ? `rgba(212,175,55,${a})`
-          : `rgba(240,235,220,${a * 0.5})`;
-        ctx.fill();
+        if (p.type === "dust") {
+          // ── Dust Physics ──
+          p.x += p.vx; p.y += p.vy;
+          p.sway += p.swaySpeed;
+          const a = p.alpha * (0.5 + 0.5 * Math.sin(p.sway));
+          
+          if (p.y < -10) p.y = canvas.height + 5;
+          if (p.x < -10) p.x = canvas.width + 5;
+          if (p.x > canvas.width + 10) p.x = -5;
+          
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.gold ? `rgba(212,175,55,${a})` : `rgba(240,235,220,${a * 0.5})`;
+          ctx.fill();
+        } else {
+          // ── Rose Petal Physics ──
+          p.sway += p.swaySpeed;
+          p.x += p.vx + Math.sin(p.sway) * 0.5; // Wind effect
+          p.y += p.vy;                          // Gravity
+          p.angle += p.spin;                    // Tumbling effect
+
+          if (p.y > canvas.height + 20) {
+            p.y = -20;
+            p.x = Math.random() * canvas.width;
+          }
+          if (p.x < -20) p.x = canvas.width + 20;
+          if (p.x > canvas.width + 20) p.x = -20;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.angle);
+          ctx.fillStyle = `rgba(160, 20, 40, ${p.alpha})`; // Deep SOTA Red
+          
+          // Draw organic petal shape
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(p.size, -p.size, 0, -p.size * 2.5);
+          ctx.quadraticCurveTo(-p.size, -p.size, 0, 0);
+          ctx.fill();
+          ctx.restore();
+        }
       });
       rafRef.current = requestAnimationFrame(draw);
     };
+    
     rafRef.current = requestAnimationFrame(draw);
     return () => { cancelAnimationFrame(rafRef.current); window.removeEventListener("resize", resize); };
   }, [active]);
 
   return (
     <canvas ref={canvasRef} style={{
-      position:"fixed", inset:0, zIndex:1,
+      position:"fixed", inset:0, zIndex:6, // Placed slightly higher to drift over the dark vignettes
       pointerEvents:"none",
       opacity: active ? 1 : 0,
       transition: "opacity 2s ease",
