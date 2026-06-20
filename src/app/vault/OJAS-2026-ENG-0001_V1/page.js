@@ -662,7 +662,7 @@ export default function VaultVideoHoli() {
             src={videoSrc(videoIdx)}
             autoPlay
             playsInline
-            muted={false}
+            muted
             onEnded={onVideoEnded}
             style={{
               position:"absolute", inset:0,
